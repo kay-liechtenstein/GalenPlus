@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Galen DocFetcher",
+  "version": "1.0",
+  "permissions": ["downloads", "activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://galen.st-andrews.ac.uk/element/scheduled/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    },
+    "default_title": "Galen DocFetcher"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
