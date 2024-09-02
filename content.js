@@ -1,8 +1,152 @@
 // 現在のページURLを取得
 const currentUrl = window.location.href;
 
+// 対象のURLパターンを定義
+const urlPatterns = [
+    '/dashboard',
+    '/timetable/users/',
+    '/users/',
+    '/announcements',
+    '/events/' // ここに追加
+];
+
+// 現在のURLがどのパターンにマッチするか確認
+const isTargetPage = urlPatterns.some(pattern => {
+    // 特定のユーザーIDを含むURLのための処理
+    if (pattern.endsWith('/')) {
+        return currentUrl.includes(pattern);
+    }
+    // 正確なマッチを必要とする場合
+    return currentUrl.includes(pattern);
+});
+
+if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
+    // ダークモードトグルボタンの作成（トグルスイッチ）
+    let toggleContainer = document.createElement('div');
+    toggleContainer.style.position = 'fixed';
+    toggleContainer.style.top = '10px';
+    toggleContainer.style.left = '50%';
+    toggleContainer.style.transform = 'translateX(-50%)';
+    toggleContainer.style.zIndex = '10000';
+    toggleContainer.style.display = 'flex';
+    toggleContainer.style.alignItems = 'center';
+
+    let toggleButton = document.createElement('div');
+    toggleButton.id = 'darkModeToggle';
+    toggleButton.style.width = '60px';
+    toggleButton.style.height = '30px';
+    toggleButton.style.backgroundColor = '#444';
+    toggleButton.style.borderRadius = '15px';
+    toggleButton.style.cursor = 'pointer';
+    toggleButton.style.position = 'relative';
+    toggleButton.style.transition = 'background-color 0.3s ease';
+
+    let toggleCircle = document.createElement('div');
+    toggleCircle.style.width = '26px';
+    toggleCircle.style.height = '26px';
+    toggleCircle.style.backgroundColor = '#fff';
+    toggleCircle.style.borderRadius = '50%';
+    toggleCircle.style.position = 'absolute';
+    toggleCircle.style.top = '2px';
+    toggleCircle.style.left = '2px';
+    toggleCircle.style.transition = 'left 0.3s ease';
+
+    toggleButton.appendChild(toggleCircle);
+    toggleContainer.appendChild(toggleButton);
+
+    let toggleText = document.createElement('span');
+    toggleText.style.marginLeft = '10px';
+    toggleText.style.color = 'white';
+    toggleText.style.fontSize = '14px';
+    toggleContainer.appendChild(toggleText);
+
+    document.body.appendChild(toggleContainer);
+
+    // 初期モードに応じたボタンのテキストとトグル位置設定
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        toggleText.innerText = 'Turn on Light Mode';
+        toggleButton.style.backgroundColor = '#666';
+        toggleCircle.style.left = '32px';
+        insertDarkModeStyles();
+    } else {
+        toggleText.innerText = 'Turn on Dark Mode';
+    }
+
+    // ダークモードスタイルの定義
+    function insertDarkModeStyles() {
+        const darkModeStyles = `
+            /* Announcements と Agenda の背景を黒に、文字を白に */
+            #announcementBody, #announcementBody *, #agenda, #agenda *, .card, .card-header, .card-body, .card-icon, .card-text {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .container-fluid .card .card-body {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .card-header-icon, .card-header-text {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .event-list, .event-list * {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .btn-info, .btn-info * {
+                background-color: #444 !important;
+                color: #fff !important;
+            }
+            .card.card-plain.card-normal, .card.card-normal.bg-gradient {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .list-group-item {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .badge {
+                background-color: #333 !important;
+                color: #fff !important;
+            }
+        `;
+
+        let styleSheet = document.getElementById('darkModeStyles');
+        if (!styleSheet) {
+            styleSheet = document.createElement('style');
+            styleSheet.id = 'darkModeStyles';
+            styleSheet.type = 'text/css';
+            styleSheet.innerText = darkModeStyles;
+            document.head.appendChild(styleSheet);
+        }
+    }
+
+    // ダークモードの切り替え
+    toggleButton.addEventListener('click', () => {
+        let isDarkMode = document.body.classList.toggle('dark-mode');
+        if (isDarkMode) {
+            localStorage.setItem('darkMode', 'true');
+            toggleText.innerText = 'Turn on Light Mode';
+            toggleButton.style.backgroundColor = '#666';
+            toggleCircle.style.left = '32px';
+            insertDarkModeStyles();
+        } else {
+            localStorage.setItem('darkMode', 'false');
+            toggleText.innerText = 'Turn on Dark Mode';
+            toggleButton.style.backgroundColor = '#444';
+            toggleCircle.style.left = '2px';
+            document.getElementById('darkModeStyles').remove();
+        }
+    });
+
+    // 初期ロード時にダークモードを設定
+    if (localStorage.getItem('darkMode') === 'true') {
+        insertDarkModeStyles();
+    }
+}
+
+// events/*ページ向けの機能
 if (currentUrl.includes('/events/')) {
-    // events/*ページ向けの機能
     let downloadButton = document.createElement('button');
     downloadButton.id = 'downloadButton';
     downloadButton.innerText = 'Download All Documents';
@@ -51,71 +195,9 @@ if (currentUrl.includes('/events/')) {
             alert('No downloadable documents found.');
         }
     });
-
-} else if (currentUrl.includes('/timetable/users/')) {
-    // timetable/users/*ページ向けの機能
-    document.querySelectorAll('.fc-daygrid-more-link').forEach(link => {
-        link.addEventListener('mouseover', () => {
-            // カーソルを合わせたときにリンクをクリックして内容を表示
-            link.click();
-
-            // ポップアップが表示された後、mouseleaveイベントを動的に追加
-            setTimeout(() => {
-                let popover = document.querySelector('.fc-popover');
-                if (popover) {
-                    popover.addEventListener('mouseleave', () => {
-                        let closeButton = document.querySelector('.fc-popover-close');
-                        if (closeButton) {
-                            closeButton.click();
-                        }
-                    });
-                }
-            }, 500); // 少し待機してポップアップが確実に表示されるのを待つ
-        });
-    });
-
-    // ドキュメント全体にマウスイベントを設定して、ポップアップ外で閉じる
-    document.addEventListener('mousemove', (event) => {
-        let popover = document.querySelector('.fc-popover');
-        if (popover) {
-            let rect = popover.getBoundingClientRect();
-            if (
-                event.clientX < rect.left ||
-                event.clientX > rect.right ||
-                event.clientY < rect.top ||
-                event.clientY > rect.bottom
-            ) {
-                let closeButton = document.querySelector('.fc-popover-close');
-                if (closeButton) {
-                    closeButton.click();
-                }
-            }
-        }
-    });
-
-// タイムテーブルの縦サイズを調整する関数
-function resizeTimetable() {
-    var calendarElement = document.querySelector('#calendar');
-    if (calendarElement) {
-        // ウィンドウの高さを取得して、それに基づいてカレンダーの高さを設定
-        var windowHeight = window.innerHeight;
-        var newHeight = windowHeight * 0.95; // 80%の高さをカレンダーに設定
-        calendarElement.style.height = newHeight + 'px';
-
-        // FullCalendarのインスタンスを取得してリサイズ
-        if (typeof FullCalendar !== 'undefined' && FullCalendar.Calendar) {
-            var calendar = FullCalendar.Calendar.get(calendarElement);
-            if (calendar) {
-                calendar.updateSize();
-            }
-        } else {
-            console.log('FullCalendar is not defined or Calendar instance not found.');
-        }
-    } else {
-        console.log('Calendar element not found.');
-    }
 }
 
+// timetable/users/*ページ向けの機能
 if (currentUrl.includes('/timetable/users/')) {
     document.querySelectorAll('.fc-daygrid-more-link').forEach(link => {
         link.addEventListener('mouseover', () => {
@@ -152,10 +234,28 @@ if (currentUrl.includes('/timetable/users/')) {
         }
     });
 
-    // ページロード時とウィンドウのリサイズ時にタイムテーブルのサイズを調整
+    // タイムテーブルの縦サイズを調整する関数
+    function resizeTimetable() {
+        var calendarElement = document.querySelector('#calendar');
+        if (calendarElement) {
+            var windowHeight = window.innerHeight;
+            var newHeight = windowHeight * 0.95;
+            calendarElement.style.height = newHeight + 'px';
+
+            if (typeof FullCalendar !== 'undefined' && FullCalendar.Calendar) {
+                var calendar = FullCalendar.Calendar.get(calendarElement);
+                if (calendar) {
+                    calendar.updateSize();
+                }
+            } else {
+                console.log('FullCalendar is not defined or Calendar instance not found.');
+            }
+        } else {
+            console.log('Calendar element not found.');
+        }
+    }
+
     window.addEventListener('load', resizeTimetable);
     window.addEventListener('resize', resizeTimetable);
     resizeTimetable();
-}
-
 }
