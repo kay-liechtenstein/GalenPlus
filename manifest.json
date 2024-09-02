@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Galen DocFetcher",
+  "name": "Galen Enhancer",
   "version": "1.0",
   "permissions": ["downloads", "activeTab", "scripting"],
   "background": {
@@ -24,7 +24,7 @@
       "48": "icon.png",
       "128": "icon.png"
     },
-    "default_title": "Galen DocFetcher"
+    "default_title": "Galen Enhancer"
   },
   "icons": {
     "16": "icon.png",

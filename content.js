@@ -74,52 +74,64 @@ if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
     }
 
     // ダークモードスタイルの定義
-    function insertDarkModeStyles() {
-        const darkModeStyles = `
-            /* Announcements と Agenda の背景を黒に、文字を白に */
-            #announcementBody, #announcementBody *, #agenda, #agenda *, .card, .card-header, .card-body, .card-icon, .card-text {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .container-fluid .card .card-body {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .card-header-icon, .card-header-text {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .event-list, .event-list * {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .btn-info, .btn-info * {
-                background-color: #444 !important;
-                color: #fff !important;
-            }
-            .card.card-plain.card-normal, .card.card-normal.bg-gradient {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .list-group-item {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .badge {
-                background-color: #333 !important;
-                color: #fff !important;
-            }
-        `;
-
-        let styleSheet = document.getElementById('darkModeStyles');
-        if (!styleSheet) {
-            styleSheet = document.createElement('style');
-            styleSheet.id = 'darkModeStyles';
-            styleSheet.type = 'text/css';
-            styleSheet.innerText = darkModeStyles;
-            document.head.appendChild(styleSheet);
+function insertDarkModeStyles() {
+    const darkModeStyles = `
+        /* サイドバーのスタイルを除外するためのセレクタ */
+        #sidebar, .sidebar, .sidebar *, .sidebar .menu-item {
+            background-color: inherit !important; /* 継承する */
+            color: inherit !important; /* 継承する */
         }
+
+        /* ダークモードのスタイルをメインコンテンツに適用 */
+        body {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+
+        #announcementBody, #announcementBody *, #agenda, #agenda *, .card, .card-header, .card-body, .card-icon, .card-text {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .container-fluid .card .card-body {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .card-header-icon, .card-header-text {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .event-list, .event-list * {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .btn-info, .btn-info * {
+            background-color: #444 !important;
+            color: #fff !important;
+        }
+        .card.card-plain.card-normal, .card.card-normal.bg-gradient {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .list-group-item {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .badge {
+            background-color: #333 !important;
+            color: #fff !important;
+        }
+    `;
+
+    let styleSheet = document.getElementById('darkModeStyles');
+    if (!styleSheet) {
+        styleSheet = document.createElement('style');
+        styleSheet.id = 'darkModeStyles';
+        styleSheet.type = 'text/css';
+        styleSheet.innerText = darkModeStyles;
+        document.head.appendChild(styleSheet);
     }
+}
+
 
     // ダークモードの切り替え
     toggleButton.addEventListener('click', () => {
@@ -142,6 +154,25 @@ if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
     // 初期ロード時にダークモードを設定
     if (localStorage.getItem('darkMode') === 'true') {
         insertDarkModeStyles();
+    }
+}
+
+// タイムテーブルページ向けの機能（全週に適用）
+if (currentUrl.includes('/timetable/users/')) {
+    // タイムテーブルの縦サイズを調整するためのCSSを挿入
+    const resizeTimetableStyles = `
+        #calendar {
+            height: 95vh !important; /* カレンダー要素の高さを設定 */
+        }
+    `;
+
+    let resizeStyleSheet = document.getElementById('resizeTimetableStyles');
+    if (!resizeStyleSheet) {
+        resizeStyleSheet = document.createElement('style');
+        resizeStyleSheet.id = 'resizeTimetableStyles';
+        resizeStyleSheet.type = 'text/css';
+        resizeStyleSheet.innerText = resizeTimetableStyles;
+        document.head.appendChild(resizeStyleSheet);
     }
 }
 
@@ -188,7 +219,7 @@ if (currentUrl.includes('/events/')) {
         links.forEach(link => {
             urls.push(link.href);
         });
-      
+
         if (urls.length > 0) {
             chrome.runtime.sendMessage({ downloadUrls: urls });
         } else {
@@ -197,25 +228,42 @@ if (currentUrl.includes('/events/')) {
     });
 }
 
-// timetable/users/*ページ向けの機能
+// timetable/users/*ページ向けのイベントのポップオーバー機能
 if (currentUrl.includes('/timetable/users/')) {
-    document.querySelectorAll('.fc-daygrid-more-link').forEach(link => {
-        link.addEventListener('mouseover', () => {
-            link.click();
-            setTimeout(() => {
-                let popover = document.querySelector('.fc-popover');
-                if (popover) {
-                    popover.addEventListener('mouseleave', () => {
-                        let closeButton = document.querySelector('.fc-popover-close');
-                        if (closeButton) {
-                            closeButton.click();
-                        }
-                    });
-                }
-            }, 500);
+    // ポップオーバーを開く機能を定義
+    function addMoreLinkHoverEffect() {
+        document.querySelectorAll('.fc-daygrid-more-link').forEach(link => {
+            link.addEventListener('mouseover', () => {
+                link.click();
+                setTimeout(() => {
+                    let popover = document.querySelector('.fc-popover');
+                    if (popover) {
+                        popover.addEventListener('mouseleave', () => {
+                            let closeButton = document.querySelector('.fc-popover-close');
+                            if (closeButton) {
+                                closeButton.click();
+                            }
+                        });
+                    }
+                }, 500);
+            });
         });
+    }
+
+    // MutationObserverを使ってDOMの変化を監視し、ポップオーバーの機能を再適用
+    const observer = new MutationObserver(() => {
+        addMoreLinkHoverEffect();
     });
 
+    observer.observe(document.querySelector('#calendar'), {
+        childList: true,
+        subtree: true
+    });
+
+    // 初回ロード時にも適用
+    addMoreLinkHoverEffect();
+
+    // カーソルがポップオーバーから離れた時に閉じる機能
     document.addEventListener('mousemove', (event) => {
         let popover = document.querySelector('.fc-popover');
         if (popover) {
@@ -233,29 +281,4 @@ if (currentUrl.includes('/timetable/users/')) {
             }
         }
     });
-
-    // タイムテーブルの縦サイズを調整する関数
-    function resizeTimetable() {
-        var calendarElement = document.querySelector('#calendar');
-        if (calendarElement) {
-            var windowHeight = window.innerHeight;
-            var newHeight = windowHeight * 0.95;
-            calendarElement.style.height = newHeight + 'px';
-
-            if (typeof FullCalendar !== 'undefined' && FullCalendar.Calendar) {
-                var calendar = FullCalendar.Calendar.get(calendarElement);
-                if (calendar) {
-                    calendar.updateSize();
-                }
-            } else {
-                console.log('FullCalendar is not defined or Calendar instance not found.');
-            }
-        } else {
-            console.log('Calendar element not found.');
-        }
-    }
-
-    window.addEventListener('load', resizeTimetable);
-    window.addEventListener('resize', resizeTimetable);
-    resizeTimetable();
 }
