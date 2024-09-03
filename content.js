@@ -1,13 +1,11 @@
-// 現在のページURLを取得
 const currentUrl = window.location.href;
 
-// 対象のURLパターンを定義
 const urlPatterns = [
     '/dashboard',
     '/timetable/users/',
     '/users/',
     '/announcements',
-    '/events/' // ここに追加
+    '/events/'
 ];
 
 // 現在のURLがどのパターンにマッチするか確認
@@ -21,7 +19,6 @@ const isTargetPage = urlPatterns.some(pattern => {
 });
 
 if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
-    // ダークモードトグルボタンの作成（トグルスイッチ）
     let toggleContainer = document.createElement('div');
     toggleContainer.style.position = 'fixed';
     toggleContainer.style.top = '10px';
@@ -62,7 +59,6 @@ if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
 
     document.body.appendChild(toggleContainer);
 
-    // 初期モードに応じたボタンのテキストとトグル位置設定
     if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark-mode');
         toggleText.innerText = 'Turn on Light Mode';
@@ -73,7 +69,6 @@ if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
         toggleText.innerText = 'Turn on Dark Mode';
     }
 
-    // ダークモードスタイルの定義
 function insertDarkModeStyles() {
     const darkModeStyles = `
         /* サイドバーのスタイルを除外するためのセレクタ */
@@ -120,6 +115,33 @@ function insertDarkModeStyles() {
             background-color: #333 !important;
             color: #fff !important;
         }
+
+        /* テーブルのテキストカラー調整 */
+        table.table-striped td, table.table-striped th {
+            color: #fff !important;
+        }
+
+        /* テーブルの背景が暗い場合に備えたテキストカラー調整 */
+        table.table-no-bordered {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+
+        /* その他のテキストカラーの調整 */
+        .text-muted {
+            color: #bbb !important;
+        }
+
+        /* 入力フィールドの背景とテキストカラーの調整 */
+        input[type="text"], .form-control {
+            background-color: #222 !important;
+            color: #fff !important;
+        }
+
+        /* ナビゲーションバーのテキストカラー */
+        .navbar, .navbar * {
+            color: #fff !important;
+        }
     `;
 
     let styleSheet = document.getElementById('darkModeStyles');
@@ -131,7 +153,6 @@ function insertDarkModeStyles() {
         document.head.appendChild(styleSheet);
     }
 }
-
 
     // ダークモードの切り替え
     toggleButton.addEventListener('click', () => {
@@ -151,18 +172,16 @@ function insertDarkModeStyles() {
         }
     });
 
-    // 初期ロード時にダークモードを設定
     if (localStorage.getItem('darkMode') === 'true') {
         insertDarkModeStyles();
     }
 }
 
-// タイムテーブルページ向けの機能（全週に適用）
 if (currentUrl.includes('/timetable/users/')) {
     // タイムテーブルの縦サイズを調整するためのCSSを挿入
     const resizeTimetableStyles = `
         #calendar {
-            height: 95vh !important; /* カレンダー要素の高さを設定 */
+            height: 95vh !important;
         }
     `;
 
@@ -176,13 +195,11 @@ if (currentUrl.includes('/timetable/users/')) {
     }
 }
 
-// events/*ページ向けの機能
 if (currentUrl.includes('/events/')) {
     let downloadButton = document.createElement('button');
     downloadButton.id = 'downloadButton';
     downloadButton.innerText = 'Download All Documents';
 
-    // ボタンのスタイル設定
     let buttonColorStart = '#2E3A45';
     let buttonColorEnd = '#2E3A45';
 
