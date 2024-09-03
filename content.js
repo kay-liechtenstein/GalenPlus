@@ -299,3 +299,97 @@ if (currentUrl.includes('/timetable/users/')) {
         }
     });
 }
+
+
+
+if (currentUrl.includes('/timetable/users/')) {
+    function addHoverEffectToEventTitle() {
+        document.querySelectorAll('.fc-event-title-container').forEach(item => {
+            item.addEventListener('mouseenter', (e) => {
+                const fullText = item.textContent.trim();
+                let existingHoverBox = document.querySelector('.hoverBox');
+                if (existingHoverBox) {
+                    existingHoverBox.remove();
+                }
+
+                const hoverBox = document.createElement('div');
+                hoverBox.classList.add('hoverBox');
+                hoverBox.innerText = fullText;
+
+                hoverBox.style.position = 'absolute';
+                hoverBox.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                hoverBox.style.color = '#fff';
+                hoverBox.style.padding = '10px';
+                hoverBox.style.borderRadius = '5px';
+                hoverBox.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
+                hoverBox.style.maxWidth = '300px'; // テキストボックスの最大幅を設定
+                hoverBox.style.wordWrap = 'break-word'; // 長い単語も折り返す
+                hoverBox.style.zIndex = '10000';
+                hoverBox.style.opacity = '0';
+                hoverBox.style.transition = 'opacity 0.1s';
+
+                const rect = item.getBoundingClientRect();
+                hoverBox.style.top = `${rect.top + window.scrollY + item.offsetHeight + 5}px`;
+                hoverBox.style.left = `${rect.left + window.scrollX}px`;
+
+                document.body.appendChild(hoverBox);
+
+                requestAnimationFrame(() => {
+                    hoverBox.style.opacity = '1';
+                });
+
+                item.addEventListener('mousemove', (e) => {
+                    hoverBox.style.top = `${e.clientY + window.scrollY + 5}px`;
+                    hoverBox.style.left = `${e.clientX + window.scrollX + 5}px`;
+                });
+            });
+
+            item.addEventListener('mouseleave', () => {
+                let hoverBox = document.querySelector('.hoverBox');
+                if (hoverBox) {
+                    hoverBox.style.opacity = '0';
+                    setTimeout(() => {
+                        hoverBox.remove();
+                    }, 300);
+                }
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', addHoverEffectToEventTitle);
+
+    // カレンダーのビューが変更された時やスライダーが動いた時にホバー機能を再適用するための監視
+    const calendarElement = document.querySelector('#calendar');
+
+    // MutationObserverを使ってDOMの変化を監視し、ホバーの機能を再適用
+    const observer = new MutationObserver(() => {
+        addHoverEffectToEventTitle();
+    });
+
+    observer.observe(calendarElement, {
+        childList: true,
+        subtree: true
+    });
+
+    // カレンダーのボタンや日付をクリックした際にホバー機能を再適用
+    calendarElement.addEventListener('click', (event) => {
+        if (event.target.closest('.fc-button') || event.target.closest('.fc-daygrid-day')) {
+            setTimeout(addHoverEffectToEventTitle, 500); // カレンダーの更新が完了した後に再適用
+        }
+    });
+
+    const resizeTimetableStyles = `
+        #calendar {
+            height: 95vh !important;
+        }
+    `;
+
+    let resizeStyleSheet = document.getElementById('resizeTimetableStyles');
+    if (!resizeStyleSheet) {
+        resizeStyleSheet = document.createElement('style');
+        resizeStyleSheet.id = 'resizeTimetableStyles';
+        resizeStyleSheet.type = 'text/css';
+        resizeStyleSheet.innerText = resizeTimetableStyles;
+        document.head.appendChild(resizeStyleSheet);
+    }
+}
