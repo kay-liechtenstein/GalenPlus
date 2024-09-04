@@ -326,10 +326,10 @@ if (currentUrl.includes('/events/')) {
     downloadButton.innerText = 'Download All Documents';
 
     let buttonColorStart = '#2E3A45';
-    let buttonColorEnd = '#2E3A45';
+    let buttonColorEnd = '#3A4A55';
 
     downloadButton.style.position = 'fixed';
-    downloadButton.style.top = '40px';
+    downloadButton.style.top = '60px';
     downloadButton.style.right = '20px';
     downloadButton.style.zIndex = '9999';
     downloadButton.style.padding = '10px 20px';
