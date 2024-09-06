@@ -69,95 +69,111 @@ if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
         toggleText.innerText = 'Turn on Dark Mode';
     }
 
-    function insertDarkModeStyles() {
-        const darkModeStyles = `
-            /* サイドバーのスタイルを除外するためのセレクタ */
-            #sidebar, .sidebar, .sidebar *, .sidebar .menu-item {
-                background-color: inherit !important; /* 継承する */
-                color: inherit !important; /* 継承する */
-            }
-
-            /* ダークモードのスタイルをメインコンテンツに適用 */
-            body {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-
-            #announcementBody, #announcementBody *, #agenda, #agenda *, .card, .card-header, .card-body, .card-icon, .card-text {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .container-fluid .card .card-body {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .card-header-icon, .card-header-text {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .event-list, .event-list * {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .btn-info, .btn-info * {
-                background-color: #444 !important;
-                color: #fff !important;
-            }
-            .card.card-plain.card-normal, .card.card-normal.bg-gradient {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .list-group-item {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-            .badge {
-                background-color: #333 !important;
-                color: #fff !important;
-            }
-
-            /* テーブルのテキストカラー調整 */
-            table.table-striped td, table.table-striped th {
-                color: #fff !important;
-            }
-
-            /* テーブルの背景が暗い場合に備えたテキストカラー調整 */
-            table.table-no-bordered {
-                background-color: #000 !important;
-                color: #fff !important;
-            }
-
-            /* その他のテキストカラーの調整 */
-            .text-muted {
-                color: #bbb !important;
-            }
-
-            /* 入力フィールドの背景とテキストカラーの調整 */
-            input[type="text"], .form-control {
-                background-color: #222 !important;
-                color: #fff !important;
-            }
-
-            /* ナビゲーションバーのテキストカラー */
-            .navbar, .navbar * {
-                color: #fff !important;
-            }
-
-            /* card-titleのテキストカラーを常に白にする */
-            .card-title {
-                color: #fff !important;
-            }
-        `;
-
-        let styleSheet = document.getElementById('darkModeStyles');
-        if (!styleSheet) {
-            styleSheet = document.createElement('style');
-            styleSheet.id = 'darkModeStyles';
-            styleSheet.type = 'text/css';
-            styleSheet.innerText = darkModeStyles;
-            document.head.appendChild(styleSheet);
+function insertDarkModeStyles() {
+    const darkModeStyles = `
+        /* サイドバーのスタイルを除外するためのセレクタ */
+        #sidebar, .sidebar, .sidebar *, .sidebar .menu-item {
+            background-color: inherit !important; /* 継承する */
+            color: inherit !important; /* 継承する */
         }
+
+        /* ダークモードのスタイルをメインコンテンツに適用 */
+        body {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+
+        #announcementBody, #announcementBody *, #agenda, #agenda *, .card, .card-header, .card-body, .card-icon, .card-text {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .container-fluid .card .card-body {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .card-header-icon, .card-header-text {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .event-list, .event-list * {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .btn-info, .btn-info * {
+            background-color: #444 !important;
+            color: #fff !important;
+        }
+        .card.card-plain.card-normal, .card.card-normal.bg-gradient {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .list-group-item {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .badge {
+            background-color: #333 !important;
+            color: #fff !important;
+        }
+
+        /* テーブルのテキストカラー調整 */
+        table.table-striped td, table.table-striped th {
+            color: #fff !important;
+        }
+
+        /* テーブルの背景が暗い場合に備えたテキストカラー調整 */
+        table.table-no-bordered {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+
+        /* その他のテキストカラーの調整 */
+        .text-muted {
+            color: #bbb !important;
+        }
+
+        /* 入力フィールドの背景とテキストカラーの調整 */
+        input[type="text"], .form-control {
+            background-color: #222 !important;
+            color: #fff !important;
+        }
+
+        /* ナビゲーションバーのテキストカラー */
+        .navbar, .navbar * {
+            color: #fff !important;
+        }
+
+        /* card-titleのテキストカラーを常に白にする */
+        .card-title {
+            color: #fff !important;
+        }
+
+        /* <p>タグの文字色を白にする */
+        p {
+            color: #fff !important;
+        }
+
+        /* <td>タグの文字色を白にする */
+        td {
+            color: #fff !important;
+        }
+
+        /* <th>タグの文字色を白にする */
+        th {
+            color: #fff !important;
+        }
+    `;
+
+    let styleSheet = document.getElementById('darkModeStyles');
+    if (!styleSheet) {
+        styleSheet = document.createElement('style');
+        styleSheet.id = 'darkModeStyles';
+        styleSheet.type = 'text/css';
+        styleSheet.innerText = darkModeStyles;
+        document.head.appendChild(styleSheet);
     }
+}
+
 
     // ダークモードの切り替え
     toggleButton.addEventListener('click', () => {
@@ -251,59 +267,86 @@ if (currentUrl.includes('/timetable/users/')) {
         }
     });
 
-    // タイトルホバー機能
-    function addHoverEffectToEventTitle() {
-        document.querySelectorAll('.fc-event-title-container').forEach(item => {
-            item.addEventListener('mouseenter', (e) => {
-                const fullText = item.textContent.trim();
-                let existingHoverBox = document.querySelector('.hoverBox');
-                if (existingHoverBox) {
-                    existingHoverBox.remove();
-                }
+// fc-event-title にホバーした時にツールチップを表示する機能
+function addHoverEffectToEventTitle() {
+    document.querySelectorAll('.fc-event-title').forEach(item => {
+        // リスナーの重複を防ぐため、既存のリスナーを削除してから追加する
+        item.removeEventListener('mouseenter', handleMouseEnter);
+        item.removeEventListener('mouseleave', handleMouseLeave);
 
-                const hoverBox = document.createElement('div');
-                hoverBox.classList.add('hoverBox');
-                hoverBox.innerText = fullText;
+        item.addEventListener('mouseenter', handleMouseEnter);
+        item.addEventListener('mouseleave', handleMouseLeave);
+    });
+}
 
-                hoverBox.style.position = 'absolute';
-                hoverBox.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-                hoverBox.style.color = '#fff';
-                hoverBox.style.padding = '10px';
-                hoverBox.style.borderRadius = '5px';
-                hoverBox.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
-                hoverBox.style.maxWidth = '300px'; // テキストボックスの最大幅を設定
-                hoverBox.style.wordWrap = 'break-word'; // 長い単語も折り返す
-                hoverBox.style.zIndex = '10000';
-                hoverBox.style.opacity = '0';
-                hoverBox.style.transition = 'opacity 0.1s';
-
-                const rect = item.getBoundingClientRect();
-                hoverBox.style.top = `${rect.top + window.scrollY + item.offsetHeight + 5}px`;
-                hoverBox.style.left = `${rect.left + window.scrollX}px`;
-
-                document.body.appendChild(hoverBox);
-
-                requestAnimationFrame(() => {
-                    hoverBox.style.opacity = '1';
-                });
-
-                item.addEventListener('mousemove', (e) => {
-                    hoverBox.style.top = `${e.clientY + window.scrollY + 5}px`;
-                    hoverBox.style.left = `${e.clientX + window.scrollX + 5}px`;
-                });
-            });
-
-            item.addEventListener('mouseleave', () => {
-                let hoverBox = document.querySelector('.hoverBox');
-                if (hoverBox) {
-                    hoverBox.style.opacity = '0';
-                    setTimeout(() => {
-                        hoverBox.remove();
-                    }, 300);
-                }
-            });
-        });
+function handleMouseEnter(e) {
+    const item = e.target;
+    const fullText = item.textContent.trim();
+    let existingHoverBox = document.querySelector('.hoverBox');
+    if (existingHoverBox) {
+        existingHoverBox.remove();
     }
+
+    const hoverBox = document.createElement('div');
+    hoverBox.classList.add('hoverBox');
+    hoverBox.innerText = fullText;
+
+    hoverBox.style.position = 'absolute';
+    hoverBox.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+    hoverBox.style.color = '#fff';
+    hoverBox.style.padding = '10px';
+    hoverBox.style.borderRadius = '5px';
+    hoverBox.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
+    hoverBox.style.maxWidth = '300px';
+    hoverBox.style.wordWrap = 'break-word';
+    hoverBox.style.zIndex = '10000';
+    hoverBox.style.opacity = '0';
+    hoverBox.style.transition = 'opacity 0.1s';
+
+    const rect = item.getBoundingClientRect();
+    hoverBox.style.top = `${rect.top + window.scrollY + item.offsetHeight + 5}px`;
+    hoverBox.style.left = `${rect.left + window.scrollX}px`;
+
+    document.body.appendChild(hoverBox);
+
+    requestAnimationFrame(() => {
+        hoverBox.style.opacity = '1';
+    });
+
+    item.addEventListener('mousemove', handleMouseMove);
+}
+
+function handleMouseMove(e) {
+    let hoverBox = document.querySelector('.hoverBox');
+    if (hoverBox) {
+        hoverBox.style.top = `${e.clientY + window.scrollY + 5}px`;
+        hoverBox.style.left = `${e.clientX + window.scrollX + 5}px`;
+    }
+}
+
+function handleMouseLeave() {
+    let hoverBox = document.querySelector('.hoverBox');
+    if (hoverBox) {
+        hoverBox.style.opacity = '0';
+        setTimeout(() => {
+            hoverBox.remove();
+        }, 300);
+    }
+}
+
+// DOMが完全に読み込まれたときに実行する
+window.onload = function() {
+    addHoverEffectToEventTitle();
+
+    // MutationObserverでカレンダーの変化を監視して、ホバー効果を再適用
+    const observer = new MutationObserver(() => {
+        addHoverEffectToEventTitle();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+};
+
+
 
     document.addEventListener('DOMContentLoaded', addHoverEffectToEventTitle);
 
