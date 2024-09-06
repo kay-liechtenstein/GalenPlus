@@ -142,6 +142,11 @@ if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
             .navbar, .navbar * {
                 color: #fff !important;
             }
+
+            /* card-titleのテキストカラーを常に白にする */
+            .card-title {
+                color: #fff !important;
+            }
         `;
 
         let styleSheet = document.getElementById('darkModeStyles');
