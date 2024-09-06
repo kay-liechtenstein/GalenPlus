@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Galen Enhancer",
+  "name": "GalenPlus",
   "version": "1.0.0",
   "permissions": ["downloads", "activeTab", "scripting"],
   "background": {
@@ -24,7 +24,7 @@
       "48": "icon.png",
       "128": "icon.png"
     },
-    "default_title": "Galen Enhancer"
+    "default_title": "GalenPlus"
   },
   "icons": {
     "16": "icon.png",
