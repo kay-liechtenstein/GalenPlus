@@ -5,7 +5,8 @@ const urlPatterns = [
     '/timetable/users/',
     '/users/',
     '/announcements',
-    '/events/'
+    '/events/',
+    '/placements/'
 ];
 
 // 現在のURLがどのパターンにマッチするか確認
