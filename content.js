@@ -10,11 +10,9 @@ const urlPatterns = [
 
 // 現在のURLがどのパターンにマッチするか確認
 const isTargetPage = urlPatterns.some(pattern => {
-    // 特定のユーザーIDを含むURLのための処理
     if (pattern.endsWith('/')) {
         return currentUrl.includes(pattern);
     }
-    // 正確なマッチを必要とする場合
     return currentUrl.includes(pattern);
 });
 
@@ -69,113 +67,89 @@ if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
         toggleText.innerText = 'Turn on Dark Mode';
     }
 
-function insertDarkModeStyles() {
-    const darkModeStyles = `
-        /* サイドバーのスタイルを除外するためのセレクタ */
-        #sidebar, .sidebar, .sidebar *, .sidebar .menu-item {
-            background-color: inherit !important; /* 継承する */
-            color: inherit !important; /* 継承する */
-        }
+    function insertDarkModeStyles() {
+        const darkModeStyles = `
+            #sidebar, .sidebar, .sidebar *, .sidebar .menu-item {
+                background-color: inherit !important;
+                color: inherit !important;
+            }
+            body {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            #announcementBody, #announcementBody *, #agenda, #agenda *, .card, .card-header, .card-body, .card-icon, .card-text {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .container-fluid .card .card-body {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .card-header-icon, .card-header-text {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .event-list, .event-list * {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .btn-info, .btn-info * {
+                background-color: #444 !important;
+                color: #fff !important;
+            }
+            .card.card-plain.card-normal, .card.card-normal.bg-gradient {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .list-group-item {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .badge {
+                background-color: #333 !important;
+                color: #fff !important;
+            }
+            table.table-striped td, table.table-striped th {
+                color: #fff !important;
+            }
+            table.table-no-bordered {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+            .text-muted {
+                color: #bbb !important;
+            }
+            input[type="text"], .form-control {
+                background-color: #222 !important;
+                color: #fff !important;
+            }
+            .navbar, .navbar * {
+                color: #fff !important;
+            }
+            .card-title {
+                color: #fff !important;
+            }
+            p {
+                color: #fff !important;
+            }
+            td {
+                color: #fff !important;
+            }
+            th {
+                color: #fff !important;
+            }
+        `;
 
-        /* ダークモードのスタイルをメインコンテンツに適用 */
-        body {
-            background-color: #000 !important;
-            color: #fff !important;
+        let styleSheet = document.getElementById('darkModeStyles');
+        if (!styleSheet) {
+            styleSheet = document.createElement('style');
+            styleSheet.id = 'darkModeStyles';
+            styleSheet.type = 'text/css';
+            styleSheet.innerText = darkModeStyles;
+            document.head.appendChild(styleSheet);
         }
-
-        #announcementBody, #announcementBody *, #agenda, #agenda *, .card, .card-header, .card-body, .card-icon, .card-text {
-            background-color: #000 !important;
-            color: #fff !important;
-        }
-        .container-fluid .card .card-body {
-            background-color: #000 !important;
-            color: #fff !important;
-        }
-        .card-header-icon, .card-header-text {
-            background-color: #000 !important;
-            color: #fff !important;
-        }
-        .event-list, .event-list * {
-            background-color: #000 !important;
-            color: #fff !important;
-        }
-        .btn-info, .btn-info * {
-            background-color: #444 !important;
-            color: #fff !important;
-        }
-        .card.card-plain.card-normal, .card.card-normal.bg-gradient {
-            background-color: #000 !important;
-            color: #fff !important;
-        }
-        .list-group-item {
-            background-color: #000 !important;
-            color: #fff !important;
-        }
-        .badge {
-            background-color: #333 !important;
-            color: #fff !important;
-        }
-
-        /* テーブルのテキストカラー調整 */
-        table.table-striped td, table.table-striped th {
-            color: #fff !important;
-        }
-
-        /* テーブルの背景が暗い場合に備えたテキストカラー調整 */
-        table.table-no-bordered {
-            background-color: #000 !important;
-            color: #fff !important;
-        }
-
-        /* その他のテキストカラーの調整 */
-        .text-muted {
-            color: #bbb !important;
-        }
-
-        /* 入力フィールドの背景とテキストカラーの調整 */
-        input[type="text"], .form-control {
-            background-color: #222 !important;
-            color: #fff !important;
-        }
-
-        /* ナビゲーションバーのテキストカラー */
-        .navbar, .navbar * {
-            color: #fff !important;
-        }
-
-        /* card-titleのテキストカラーを常に白にする */
-        .card-title {
-            color: #fff !important;
-        }
-
-        /* <p>タグの文字色を白にする */
-        p {
-            color: #fff !important;
-        }
-
-        /* <td>タグの文字色を白にする */
-        td {
-            color: #fff !important;
-        }
-
-        /* <th>タグの文字色を白にする */
-        th {
-            color: #fff !important;
-        }
-    `;
-
-    let styleSheet = document.getElementById('darkModeStyles');
-    if (!styleSheet) {
-        styleSheet = document.createElement('style');
-        styleSheet.id = 'darkModeStyles';
-        styleSheet.type = 'text/css';
-        styleSheet.innerText = darkModeStyles;
-        document.head.appendChild(styleSheet);
     }
-}
 
-
-    // ダークモードの切り替え
     toggleButton.addEventListener('click', () => {
         let isDarkMode = document.body.classList.toggle('dark-mode');
         if (isDarkMode) {
@@ -199,7 +173,6 @@ function insertDarkModeStyles() {
 }
 
 if (currentUrl.includes('/timetable/users/')) {
-    // タイムテーブルの縦サイズを調整するためのCSSを挿入
     const resizeTimetableStyles = `
         #calendar {
             height: 95vh !important;
@@ -215,7 +188,6 @@ if (currentUrl.includes('/timetable/users/')) {
         document.head.appendChild(resizeStyleSheet);
     }
 
-    // timetable/users/*ページ向けのイベントのポップオーバー機能
     function addMoreLinkHoverEffect() {
         document.querySelectorAll('.fc-daygrid-more-link').forEach(link => {
             link.addEventListener('mouseover', () => {
@@ -235,7 +207,6 @@ if (currentUrl.includes('/timetable/users/')) {
         });
     }
 
-    // MutationObserverを使ってDOMの変化を監視し、ポップオーバーの機能を再適用
     const popoverObserver = new MutationObserver(() => {
         addMoreLinkHoverEffect();
     });
@@ -245,20 +216,13 @@ if (currentUrl.includes('/timetable/users/')) {
         subtree: true
     });
 
-    // 初回ロード時にも適用
     addMoreLinkHoverEffect();
 
-    // カーソルがポップオーバーから離れた時に閉じる機能
     document.addEventListener('mousemove', (event) => {
         let popover = document.querySelector('.fc-popover');
         if (popover) {
             let rect = popover.getBoundingClientRect();
-            if (
-                event.clientX < rect.left ||
-                event.clientX > rect.right ||
-                event.clientY < rect.top ||
-                event.clientY > rect.bottom
-            ) {
+            if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
                 let closeButton = document.querySelector('.fc-popover-close');
                 if (closeButton) {
                     closeButton.click();
@@ -267,90 +231,120 @@ if (currentUrl.includes('/timetable/users/')) {
         }
     });
 
-// fc-event-title にホバーした時にツールチップを表示する機能
-function addHoverEffectToEventTitle() {
-    document.querySelectorAll('.fc-event-title').forEach(item => {
-        // リスナーの重複を防ぐため、既存のリスナーを削除してから追加する
-        item.removeEventListener('mouseenter', handleMouseEnter);
-        item.removeEventListener('mouseleave', handleMouseLeave);
+    function addHoverEffectToEventTitle() {
+        document.querySelectorAll('.fc-event-title').forEach(item => {
+            item.removeEventListener('mouseenter', handleMouseEnter);
+            item.removeEventListener('mouseleave', handleMouseLeave);
 
-        item.addEventListener('mouseenter', handleMouseEnter);
-        item.addEventListener('mouseleave', handleMouseLeave);
-    });
-}
-
-function handleMouseEnter(e) {
-    const item = e.target;
-    const fullText = item.textContent.trim();
-    let existingHoverBox = document.querySelector('.hoverBox');
-    if (existingHoverBox) {
-        existingHoverBox.remove();
+            item.addEventListener('mouseenter', handleMouseEnter);
+            item.addEventListener('mouseleave', handleMouseLeave);
+        });
     }
 
-    const hoverBox = document.createElement('div');
-    hoverBox.classList.add('hoverBox');
-    hoverBox.innerText = fullText;
+    function handleMouseEnter(e) {
+        const item = e.target;
+        const fullText = item.textContent.trim();
+        let existingHoverBox = document.querySelector('.hoverBox');
+        if (existingHoverBox) {
+            existingHoverBox.remove();
+        }
 
-    hoverBox.style.position = 'absolute';
-    hoverBox.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-    hoverBox.style.color = '#fff';
-    hoverBox.style.padding = '10px';
-    hoverBox.style.borderRadius = '5px';
-    hoverBox.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
-    hoverBox.style.maxWidth = '300px';
-    hoverBox.style.wordWrap = 'break-word';
-    hoverBox.style.zIndex = '10000';
-    hoverBox.style.opacity = '0';
-    hoverBox.style.transition = 'opacity 0.1s';
+        const hoverBox = document.createElement('div');
+        hoverBox.classList.add('hoverBox');
+        hoverBox.innerText = fullText;
 
-    const rect = item.getBoundingClientRect();
-    hoverBox.style.top = `${rect.top + window.scrollY + item.offsetHeight + 5}px`;
-    hoverBox.style.left = `${rect.left + window.scrollX}px`;
-
-    document.body.appendChild(hoverBox);
-
-    requestAnimationFrame(() => {
-        hoverBox.style.opacity = '1';
-    });
-
-    item.addEventListener('mousemove', handleMouseMove);
-}
-
-function handleMouseMove(e) {
-    let hoverBox = document.querySelector('.hoverBox');
-    if (hoverBox) {
-        hoverBox.style.top = `${e.clientY + window.scrollY + 5}px`;
-        hoverBox.style.left = `${e.clientX + window.scrollX + 5}px`;
-    }
-}
-
-function handleMouseLeave() {
-    let hoverBox = document.querySelector('.hoverBox');
-    if (hoverBox) {
+        hoverBox.style.position = 'absolute';
+        hoverBox.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+        hoverBox.style.color = '#fff';
+        hoverBox.style.padding = '10px';
+        hoverBox.style.borderRadius = '5px';
+        hoverBox.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
+        hoverBox.style.maxWidth = '300px';
+        hoverBox.style.wordWrap = 'break-word';
+        hoverBox.style.zIndex = '10000';
         hoverBox.style.opacity = '0';
-        setTimeout(() => {
-            hoverBox.remove();
-        }, 300);
+        hoverBox.style.transition = 'opacity 0.1s';
+
+        const rect = item.getBoundingClientRect();
+        hoverBox.style.top = `${rect.top + window.scrollY + item.offsetHeight + 5}px`;
+        hoverBox.style.left = `${rect.left + window.scrollX}px`;
+
+        document.body.appendChild(hoverBox);
+
+        requestAnimationFrame(() => {
+            hoverBox.style.opacity = '1';
+        });
+
+        item.addEventListener('mousemove', handleMouseMove);
     }
-}
 
-// DOMが完全に読み込まれたときに実行する
-window.onload = function() {
-    addHoverEffectToEventTitle();
+    function handleMouseMove(e) {
+        let hoverBox = document.querySelector('.hoverBox');
+        if (hoverBox) {
+            hoverBox.style.top = `${e.clientY + window.scrollY + 5}px`;
+            hoverBox.style.left = `${e.clientX + window.scrollX + 5}px`;
+        }
+    }
 
-    // MutationObserverでカレンダーの変化を監視して、ホバー効果を再適用
-    const observer = new MutationObserver(() => {
+    function handleMouseLeave() {
+        let hoverBox = document.querySelector('.hoverBox');
+        if (hoverBox) {
+            hoverBox.style.opacity = '0';
+            setTimeout(() => {
+                hoverBox.remove();
+            }, 300);
+    }
+
+    }
+
+    function addConfidenceStarsToTimetable() {
+        const confidenceData = JSON.parse(localStorage.getItem('confidenceData')) || {};
+
+        document.querySelectorAll('.fc-timegrid-event-harness a[href^="/events/"]').forEach(eventLink => {
+            const eventId = eventLink.getAttribute('href').split('/events/')[1];
+
+            if (eventId && confidenceData[eventId]) {
+                const confidenceLevel = confidenceData[eventId];
+                const starContainer = eventLink.querySelector('.star-container');
+                
+                if (!starContainer) {
+                    const newStarContainer = document.createElement('div');
+                    newStarContainer.className = 'star-container';
+                    newStarContainer.style.display = 'inline-block';
+                    newStarContainer.style.marginLeft = '10px';
+
+                    for (let i = 0; i < confidenceLevel; i++) {
+                        const star = document.createElement('span');
+                        star.innerText = '★';
+                        star.style.color = 'gold';
+                        newStarContainer.appendChild(star);
+                    }
+
+                    const eventTimeElement = eventLink.querySelector('.fc-event-time');
+                    if (eventTimeElement) {
+                        eventTimeElement.style.display = 'inline-flex';
+                        eventTimeElement.style.alignItems = 'center';
+                        eventTimeElement.appendChild(newStarContainer);
+                    }
+                }
+            }
+        });
+    }
+
+    window.onload = function () {
         addHoverEffectToEventTitle();
-    });
+        addConfidenceStarsToTimetable();
 
-    observer.observe(document.body, { childList: true, subtree: true });
-};
+        const observer = new MutationObserver(() => {
+            addHoverEffectToEventTitle();
+            addConfidenceStarsToTimetable();
+        });
 
-
+        observer.observe(document.body, { childList: true, subtree: true });
+    };
 
     document.addEventListener('DOMContentLoaded', addHoverEffectToEventTitle);
 
-    // カレンダーのビューが変更された時やスライダーが動いた時にホバー機能を再適用するための監視
     const hoverObserver = new MutationObserver(() => {
         addHoverEffectToEventTitle();
     });
@@ -360,10 +354,12 @@ window.onload = function() {
         subtree: true
     });
 
-    // カレンダーのボタンや日付をクリックした際にホバー機能を再適用
     document.querySelector('#calendar').addEventListener('click', (event) => {
         if (event.target.closest('.fc-button') || event.target.closest('.fc-daygrid-day')) {
-            setTimeout(addHoverEffectToEventTitle, 500); // カレンダーの更新が完了した後に再適用
+            setTimeout(() => {
+                addHoverEffectToEventTitle();
+                addConfidenceStarsToTimetable();
+            }, 500);
         }
     });
 }
@@ -406,10 +402,8 @@ if (currentUrl.includes('/events/')) {
     downloadButton.addEventListener('click', () => {
         const infoElement = document.querySelector('.info');
         if (infoElement && !infoElement.classList.contains('d-none')) {
-            // unvalidated要素が表示されている場合、警告ポップアップを表示
             alert("This element hasn't been validated yet.");
         } else {
-            // info要素が非表示の場合、通常のダウンロード処理を実行
             let links = document.querySelectorAll('td.m-2.editable-resource a');
             let urls = [];
             links.forEach(link => {
@@ -423,4 +417,110 @@ if (currentUrl.includes('/events/')) {
             }
         }
     });
+}
+
+if (currentUrl.includes('/events/')) {
+    let confidenceButton = document.createElement('button');
+    confidenceButton.id = 'confidenceButton';
+    confidenceButton.innerText = 'Confidence Level';
+    confidenceButton.style.position = 'fixed';
+    confidenceButton.style.top = '110px';
+    confidenceButton.style.right = '20px';
+    confidenceButton.style.zIndex = '9999';
+    confidenceButton.style.padding = '10px 20px';
+    confidenceButton.style.backgroundColor = '#2E3A45';
+    confidenceButton.style.color = 'white';
+    confidenceButton.style.border = 'none';
+    confidenceButton.style.borderRadius = '25px';
+    confidenceButton.style.cursor = 'pointer';
+    confidenceButton.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)';
+    confidenceButton.style.backgroundImage = `linear-gradient(to right, #2E3A45, #3A4A55)`;
+    confidenceButton.style.fontWeight = 'bold';
+    confidenceButton.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+
+    confidenceButton.addEventListener('mouseover', () => {
+        confidenceButton.style.transform = 'scale(1.1)';
+        confidenceButton.style.boxShadow = '0 8px 16px 0 rgba(0, 0, 0, 0.3), 0 10px 25px 0 rgba(0, 0, 0, 0.25)';
+    });
+    confidenceButton.addEventListener('mouseout', () => {
+        confidenceButton.style.transform = 'scale(1)';
+        confidenceButton.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)';
+    });
+
+    document.body.appendChild(confidenceButton);
+
+    let levelContainer = document.createElement('div');
+    levelContainer.style.position = 'fixed';
+    levelContainer.style.top = '160px';
+    levelContainer.style.right = '20px';
+    levelContainer.style.zIndex = '10000';
+    levelContainer.style.display = 'flex';
+    levelContainer.style.flexDirection = 'column';
+    levelContainer.style.justifyContent = 'center';
+    levelContainer.style.alignItems = 'center';
+    levelContainer.style.gap = '10px';
+    levelContainer.style.backgroundColor = 'transparent';
+    levelContainer.style.padding = '0';
+    levelContainer.style.opacity = '0';
+    levelContainer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    levelContainer.style.transform = 'translateY(30px)';
+
+    for (let i = 1; i <= 5; i++) {
+        let levelButton = document.createElement('div');
+        levelButton.innerText = i;
+        levelButton.style.width = '40px';
+        levelButton.style.height = '40px';
+        levelButton.style.borderRadius = '50%';
+        levelButton.style.display = 'flex';
+        levelButton.style.alignItems = 'center';
+        levelButton.style.justifyContent = 'center';
+        levelButton.style.backgroundColor = '#3A4A55';
+        levelButton.style.color = '#fff';
+        levelButton.style.cursor = 'pointer';
+        levelButton.style.fontSize = '18px';
+        levelButton.style.fontWeight = 'bold';
+        levelButton.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+        levelButton.style.transition = 'transform 0.3s ease, background-color 0.3s ease';
+
+        levelButton.addEventListener('mouseover', () => {
+            levelButton.style.transform = 'scale(1.1)';
+            levelButton.style.backgroundColor = '#2E3A45';
+        });
+        levelButton.addEventListener('mouseout', () => {
+            levelButton.style.transform = 'scale(1)';
+            levelButton.style.backgroundColor = '#3A4A55';
+        });
+
+        levelButton.addEventListener('click', () => {
+            saveConfidenceLevel(i);
+            levelContainer.style.opacity = '0';
+            levelContainer.style.transform = 'translateY(30px)';
+        });
+
+        levelContainer.appendChild(levelButton);
+    }
+
+    document.body.appendChild(levelContainer);
+
+    confidenceButton.addEventListener('click', () => {
+        if (levelContainer.style.opacity === '0') {
+            levelContainer.style.opacity = '1';
+            levelContainer.style.transform = 'translateY(0)';
+            const levelButtons = levelContainer.children;
+            for (let j = 0; j < levelButtons.length; j++) {
+                levelButtons[j].style.transitionDelay = `${j * 0.1}s`;
+            }
+        } else {
+            levelContainer.style.opacity = '0';
+            levelContainer.style.transform = 'translateY(30px)';
+        }
+    });
+
+    function saveConfidenceLevel(level) {
+        let eventId = currentUrl.match(/\/events\/(\d+)/)[1];
+        let confidenceData = JSON.parse(localStorage.getItem('confidenceData')) || {};
+        confidenceData[eventId] = level;
+        localStorage.setItem('confidenceData', JSON.stringify(confidenceData));
+        alert(`Confidence Level ${level} has been saved for event ID: ${eventId}`);
+    }
 }
