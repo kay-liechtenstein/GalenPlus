@@ -6,6 +6,7 @@ const urlPatterns = [
     '/users/',
     '/announcements',
     '/events/',
+    '/evidence/',
     '/placements/'
 ];
 

@@ -12,6 +12,7 @@
         "https://galen.st-andrews.ac.uk/dashboard",
         "https://galen.st-andrews.ac.uk/events/*",
         "https://galen.st-andrews.ac.uk/placements/*",
+        "https://galen.st-andrews.ac.uk/evidence/*",
         "https://galen.st-andrews.ac.uk/timetable/users/*",
         "https://galen.st-andrews.ac.uk/users/*",
         "https://galen.st-andrews.ac.uk/announcements"
