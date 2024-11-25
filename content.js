@@ -76,23 +76,23 @@ if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
                 color: inherit !important;
             }
             body {
-                background-color: #000 !important;
+                background-color: #004400 !important;
                 color: #fff !important;
             }
             #announcementBody, #announcementBody *, #agenda, #agenda *, .card, .card-header, .card-body, .card-icon, .card-text {
-                background-color: #000 !important;
+                background-color: #004400 !important;
                 color: #fff !important;
             }
             .container-fluid .card .card-body {
-                background-color: #000 !important;
+                background-color: #004400 !important;
                 color: #fff !important;
             }
             .card-header-icon, .card-header-text {
-                background-color: #000 !important;
+                background-color: #004400 !important;
                 color: #fff !important;
             }
             .event-list, .event-list * {
-                background-color: #000 !important;
+                background-color: #004400 !important;
                 color: #fff !important;
             }
             .btn-info, .btn-info * {
@@ -100,11 +100,11 @@ if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
                 color: #fff !important;
             }
             .card.card-plain.card-normal, .card.card-normal.bg-gradient {
-                background-color: #000 !important;
+                background-color: #004400 !important;
                 color: #fff !important;
             }
             .list-group-item {
-                background-color: #000 !important;
+                background-color: #004400 !important;
                 color: #fff !important;
             }
             .badge {
@@ -115,7 +115,7 @@ if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
                 color: #fff !important;
             }
             table.table-no-bordered {
-                background-color: #000 !important;
+                background-color: #004400 !important;
                 color: #fff !important;
             }
             .text-muted {
