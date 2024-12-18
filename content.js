@@ -137,6 +137,10 @@ if (isTargetPage || currentUrl.includes('galen.st-andrews.ac.uk')) {
             td {
                 color: #fff !important;
             }
+            .notification-author,
+            .notification-author * {
+                color: #fff !important;
+            }
             th {
                 color: #fff !important;
             }
