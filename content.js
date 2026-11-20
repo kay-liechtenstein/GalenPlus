@@ -1,5 +1,23 @@
 const currentUrl = window.location.href;
 
+// confidenceData lives in the Galen origin's localStorage, which the page itself
+// can also write, so treat it as untrusted: tolerate bad JSON and only accept
+// integer levels 1-5 (anything else could make the star loop run unbounded).
+function loadConfidenceData() {
+    let data;
+    try {
+        data = JSON.parse(localStorage.getItem('confidenceData'));
+    } catch (e) {
+        data = null;
+    }
+    return (data && typeof data === 'object' && !Array.isArray(data)) ? data : {};
+}
+
+function validConfidenceLevel(value) {
+    const level = Number(value);
+    return Number.isInteger(level) && level >= 1 && level <= 5 ? level : 0;
+}
+
 const urlPatterns = [
     '/dashboard',
     '/timetable/users/',
@@ -304,13 +322,14 @@ if (currentUrl.includes('/timetable/users/')) {
     }
 
     function addConfidenceStarsToTimetable() {
-        const confidenceData = JSON.parse(localStorage.getItem('confidenceData')) || {};
+        const confidenceData = loadConfidenceData();
 
         document.querySelectorAll('.fc-timegrid-event-harness a[href^="/events/"]').forEach(eventLink => {
             const eventId = eventLink.getAttribute('href').split('/events/')[1];
 
-            if (eventId && confidenceData[eventId]) {
-                const confidenceLevel = confidenceData[eventId];
+            const confidenceLevel = (eventId && Object.prototype.hasOwnProperty.call(confidenceData, eventId))
+                ? validConfidenceLevel(confidenceData[eventId]) : 0;
+            if (confidenceLevel) {
                 const starContainer = eventLink.querySelector('.star-container');
                 
                 if (!starContainer) {
@@ -523,8 +542,10 @@ if (currentUrl.includes('/events/')) {
     });
 
     function saveConfidenceLevel(level) {
-        let eventId = currentUrl.match(/\/events\/(\d+)/)[1];
-        let confidenceData = JSON.parse(localStorage.getItem('confidenceData')) || {};
+        const match = currentUrl.match(/\/events\/(\d+)/);
+        if (!match) return;
+        let eventId = match[1];
+        let confidenceData = loadConfidenceData();
         confidenceData[eventId] = level;
         localStorage.setItem('confidenceData', JSON.stringify(confidenceData));
         alert(`Confidence Level ${level} has been saved for event ID: ${eventId}`);

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "GalenPlus",
-  "version": "1.1.0",
-  "permissions": ["downloads", "activeTab", "scripting"],
+  "version": "1.1.1",
+  "permissions": ["downloads"],
   "background": {
     "service_worker": "background.js"
   },
